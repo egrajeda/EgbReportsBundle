@@ -1,6 +1,6 @@
 <?php
 
-namespace Egrajeda\ReclineJsBundle\Tests;
+namespace Egrajeda\ReclineJsBundle\Tests\Helper;
 
 use Egrajeda\ReclineJsBundle\Helper\ArrayToCsvTransformer;
 
