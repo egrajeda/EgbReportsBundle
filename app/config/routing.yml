@@ -1,0 +1,4 @@
+egrajeda_recline_js:
+    resource: "@EgrajedaReclineJsBundle/Resources/config/routing.yml"
+    prefix:   /
+

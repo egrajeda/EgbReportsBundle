@@ -1,0 +1,3 @@
+egrajeda_recline_js:
+    resource: "@EgrajedaReclineJsBundle/Controller"
+    type: annotation
