@@ -2,6 +2,8 @@
 
 namespace Egrajeda\ReclineJsBundle;
 
+use Egrajeda\ReclineJsBundle\Helper\ArrayToCsvTransformer;
+
 abstract class AbstractDatabaseReport implements ReportInterface
 {
     private $em;
@@ -16,16 +18,16 @@ abstract class AbstractDatabaseReport implements ReportInterface
 
     public function getCsv()
     {
-        $statement   = $this->getStatement($this->em);
-        $transformer = new StatementToCsvTransformer();
+        $data = $this->getData($this->em);
+        $transformer = new ArrayToCsvTransformer();
 
-        return $transformer->transform($statement);
+        return $transformer->transform($data);
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
      *
-     * @return \Doctrine\DBAL\Driver\Statement
+     * @return array
      */
-    abstract public function getStatement(\Doctrine\ORM\EntityManager $em);
+    abstract protected function getData(\Doctrine\ORM\EntityManager $em);
 }
