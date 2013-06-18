@@ -2,6 +2,5 @@ parameters:
 #    egrajeda_recline_js.example.class: Egrajeda\ReclineJsBundle\Example
 
 services:
-#    egrajeda_recline_js.example:
-#        class: %egrajeda_recline_js.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    egrajeda_reclinejs.report_container:
+        class: Egrajeda\ReclineJsBundle\ReportContainer
