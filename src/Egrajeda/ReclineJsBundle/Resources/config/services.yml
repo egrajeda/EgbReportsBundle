@@ -1,6 +1,3 @@
-parameters:
-#    egrajeda_recline_js.example.class: Egrajeda\ReclineJsBundle\Example
-
 services:
     egrajeda_reclinejs.report_container:
-        class: Egrajeda\ReclineJsBundle\ReportContainer
+        class: Egrajeda\ReclineJsBundle\Report\ReportContainer
