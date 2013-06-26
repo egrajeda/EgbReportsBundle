@@ -3,33 +3,62 @@
 namespace Egrajeda\ReclineJsBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-use Egrajeda\ReclineJsBundle\SqlReportA;
+use Egrajeda\ReclineJsBundle\Helper\ArrayToCsvTransformer;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/")
+     * @Template
      */
     public function indexAction()
     {
-        $response = new Response();
-        $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="prueba.csv"');
+        $reportContainer = $this->get('egrajeda_reclinejs.report_container');
 
-        $report = new SqlReportA($this->getDoctrine()->getManager());
-        $response->setContent($report->getCsv());
-
-        return $response;
+        return array('reports' => $reportContainer->all());
     }
 
     /**
-     * @Route("/show")
+     * @Route("/{slug}")
+     * @Template
      */
-    public function showAction()
+    public function showAction($slug)
     {
-        return $this->render('EgrajedaReclineJsBundle:Default:show.html.twig');
+        $reportContainer = $this->get('egrajeda_reclinejs.report_container');
+        foreach ($reportContainer->all() as $report) {
+            if ($report->getSlug() === $slug) {
+                return array('report' => $report);
+            }
+        }
+
+        throw new \Exception;
+    }
+
+    /**
+     * @Route("/csv/{slug}")
+     */
+    public function csvAction($slug)
+    {
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $slug . '.csv"');
+
+        $reportContainer = $this->get('egrajeda_reclinejs.report_container');
+        foreach ($reportContainer->all() as $report) {
+            if ($report->getSlug() === $slug) {
+                $fooReport = $report;
+            }
+        }
+
+        $data = $fooReport->getData();
+        $transformer = new ArrayToCsvTransformer();
+
+        $response->setContent($transformer->transform($data));
+
+        return $response;
     }
 }

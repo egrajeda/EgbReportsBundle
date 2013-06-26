@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% stylesheets '@EgrajedaReclineJsBundle/Resources/public/css/*' filter='cssrewrite' %}
+      <link href="{{ asset_url }}" rel="stylesheet">
+    {% endstylesheets %}
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+    {% block javascripts %}{% endblock %}
+  </body>
+</html>

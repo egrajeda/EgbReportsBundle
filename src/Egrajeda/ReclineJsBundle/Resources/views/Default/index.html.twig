@@ -1,1 +1,29 @@
-Hello {{ name }}!
+{% extends '@EgrajedaReclineJs/layout.html.twig' %}
+
+{% block body %}
+  <div class="row">
+    <div class="span12">
+      <div class="page-header">
+        <h1>Reports</h1>
+      </div>
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for report in reports %}
+          <tr>
+            <td>
+              <a href='{{ path('egrajeda_reclinejs_default_show', {'slug': report.slug}) }}'>{{ report.name }}</a>
+            </td>
+            <td>{{ report.description }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

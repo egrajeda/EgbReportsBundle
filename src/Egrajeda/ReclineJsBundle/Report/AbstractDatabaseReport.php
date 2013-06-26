@@ -8,10 +8,14 @@ abstract class AbstractDatabaseReport implements ReportInterface
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
+     *
+     * @return AbstractDatabaseReport
      */
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function setManager(\Doctrine\ORM\EntityManager $em)
     {
         $this->em = $em;
+
+        return $this;
     }
 
     /**

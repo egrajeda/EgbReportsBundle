@@ -1,10 +1,10 @@
 // Create a dataset with a Google Docs backend and a url to the Google Doc
 var dataset = new recline.Model.Dataset({
-  url: '/reclinejs_symfony/app_dev.php',
+  url: 'csv/reporte-b',
   backend: 'csv'
 });
 
-var $el  = $('#mygrid');
+var $el  = $('#data-grid');
 var grid = new recline.View.SlickGrid({
   model: dataset,
   el: $el
