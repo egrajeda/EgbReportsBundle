@@ -10,6 +10,12 @@ class CompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
+        $this->processReports($container);
+        $this->processReportBuilders($container);
+    }
+
+    private function processReports(ContainerBuilder $container)
+    {
         if (!$container->hasDefinition('egrajeda_reclinejs.report_container')) {
             return;
         }
@@ -24,6 +30,26 @@ class CompilerPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall(
                 'add', array(new Reference($id))
+            );
+        }
+    }
+
+    private function processReportBuilders(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition('egrajeda_reclinejs.report_builder_loader')) {
+            return;
+        }
+
+        $definition = $container->getDefinition(
+            'egrajeda_reclinejs.report_builder_loader'
+        );
+
+        $taggedServices = $container->findTaggedServiceIds(
+            'egrajeda_reclinejs.report_builder'
+        );
+        foreach ($taggedServices as $id => $attributes) {
+            $definition->addMethodCall(
+                'register', array(new Reference($id))
             );
         }
     }

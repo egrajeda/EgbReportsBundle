@@ -1,7 +1,14 @@
 <?php
 
+/**
+ * Copyright 2013 Eduardo Grajeda Blandón <tatofoo@gmail.com>
+ */
+
 namespace Egrajeda\ReclineJsBundle\Report;
 
+/**
+ * Base interface that all report classes should implement.
+ */
 interface ReportInterface
 {
     /**

@@ -1,4 +1,10 @@
 services:
     egrajeda_reclinejs.report_container:
         class: Egrajeda\ReclineJsBundle\Report\ReportContainer
-        arguments: [@doctrine.orm.default_entity_manager]
+        calls:
+            - [setDoctrine, [@doctrine]]
+        configurator: [@egrajeda_reclinejs.report_builder_loader, load]
+
+    egrajeda_reclinejs.report_builder_loader:
+        class: Egrajeda\ReclineJsBundle\Report\ReportBuilderLoader
+        arguments: [@egrajeda_reclinejs.report_container]

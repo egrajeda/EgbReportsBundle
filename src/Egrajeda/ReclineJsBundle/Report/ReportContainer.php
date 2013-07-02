@@ -1,27 +1,53 @@
 <?php
 
+/**
+ * Copyright 2013 Eduardo Grajeda Blandón <tatofoo@gmail.com>
+ */
+
 namespace Egrajeda\ReclineJsBundle\Report;
 
+use Symfony\Bridge\Doctrine\RegistryInterface;
+
+/**
+ * Holds the instances of all the created reports.
+ */
 class ReportContainer
 {
-    private $em;
+    private $doctrine;
 
     private $reports = array();
 
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    /**
+     * @param RegistryInterface $doctrine
+     *
+     * @returns ReportContainer
+     */
+    public function setDoctrine(RegistryInterface $doctrine)
     {
-        $this->em = $em;
+        $this->doctrine = $doctrine;
+
+        return $this;
     }
 
-    public function add($report)
+    /**
+     * @param ReportInterface $report
+     *
+     * @returns ReportContainer
+     */
+    public function add(ReportInterface $report)
     {
-        if ($report instanceof AbstractDatabaseReport) {
-            $report->setManager($this->em);
+        if ($report instanceof DoctrineAwareInterface) {
+            $report->setDoctrine($this->doctrine);
         }
 
         $this->reports[] = $report;
+
+        return $this;
     }
 
+    /**
+     * @returns array
+     */
     public function all()
     {
         return $this->reports;
