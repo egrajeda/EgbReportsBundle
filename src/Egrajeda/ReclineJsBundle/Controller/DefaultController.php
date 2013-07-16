@@ -6,6 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 use Egrajeda\ReclineJsBundle\Helper\ArrayToCsvTransformer;
 
@@ -19,7 +22,14 @@ class DefaultController extends Controller
     {
         $reportContainer = $this->get('egrajeda_reclinejs.report_container');
 
-        return array('reports' => $reportContainer->all());
+        $normalizer = new GetSetMethodNormalizer();
+        $normalizer->setIgnoredAttributes(array('data'));
+
+        $serializer = new Serializer(array($normalizer), array(new JsonEncoder()));
+
+        return array(
+            'reports_json' => $serializer->serialize($reportContainer->all(), "json")
+        );
     }
 
     /**

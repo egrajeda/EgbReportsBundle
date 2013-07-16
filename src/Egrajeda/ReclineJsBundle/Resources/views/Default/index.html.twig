@@ -6,24 +6,79 @@
       <div class="page-header">
         <h1>Reports</h1>
       </div>
-      <table class="table table-bordered table-stripped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for report in reports %}
-          <tr>
-            <td>
-              <a href='{{ path('egrajeda_reclinejs_default_show', {'slug': report.slug}) }}'>{{ report.name }}</a>
-            </td>
-            <td>{{ report.description }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
+
+      <table class="tree-with-description table table-bordered table-condensed">
+        <tr>
+          <td class="fuelux">
+            <div id="reports-tree" class="tree">
+              <div class="tree-folder" style="display: none;">
+                <div class="tree-folder-header">
+                  <i class="icon-folder-close"></i>
+                  <div class="tree-folder-name"></div>
+                </div>
+                <div class="tree-folder-content"></div>
+                <div class="tree-loader" style="display: none"></div>
+              </div>
+              <div class="tree-item" style="display: none;">
+                <i class="tree-dot"></i>
+                <div class="tree-item-name"></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div id="report-description-placeholder" class="placeholder">
+              Haz clic sobre un reporte para ver su descripción.
+            </div>
+            <div id="report-description" style="display: none;">
+              <h5></h5>
+              <p></p>
+              <a href="#" class="btn btn-small btn-primary pull-right">Generar <i class="icon-chevron-right icon-white"></i></a>
+            </div>
+          </td>
+        </tr>
       </table>
     </div>
   </div>
+{% endblock %}
+
+{% block stylesheets %}
+  <link href="http://fuelcdn.com/fuelux-imh/2.2/css/fuelux.css" rel="stylesheet" />
+  <link href="http://fuelcdn.com/fuelux-imh/2.2/css/fuelux-responsive.css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="http://fuelcdn.com/fuelux-imh/2.2/loader.min.js" type="text/javascript"></script>
+  <script>
+    $(function() {
+      var data = JSON.parse('{{reports_json|raw}}');
+
+      var DataSource = function(options) {
+        for (var i = 0; i < options.data.length; i++) {
+          options.data[i].type = 'item';
+        }
+
+        this._data  = options.data;
+      };
+
+      DataSource.prototype = {
+        data: function(options, callback) {
+          var data = $.extend(true, [], this._data);
+          callback({ data: data });
+        }
+      };
+
+      var dataSource = new DataSource({ data: data });
+      $('#reports-tree').tree({ dataSource: dataSource });
+
+      $('#reports-tree').on('selected', function(e, args) {
+        item = args.info[0];
+        $("#report-description h5").text(item.name);
+        $("#report-description p").text(item.description || '');
+        $("#report-description a").attr("href", item.slug);
+        $("#report-description-placeholder").hide();
+        $("#report-description").show();
+      });
+    });
+  </script>
 {% endblock %}

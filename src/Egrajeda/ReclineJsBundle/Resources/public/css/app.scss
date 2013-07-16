@@ -1,0 +1,28 @@
+.tree-with-description {
+  td {
+    width: 50%;
+    padding: 10px;
+
+    *:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .fuelux .tree {
+    border: 0;
+    padding: 0;
+    height: 400px;
+  }
+
+  td:last-child {
+    background-color: #F7F7F9;
+
+    .placeholder {
+      margin: 175px 0 0 0;
+      color: #9DA0A4;
+      font-weight: bold;
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+}
