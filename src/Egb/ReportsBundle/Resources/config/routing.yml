@@ -1,3 +1,0 @@
-egb_reports:
-    resource: "@EgbReportsBundle/Controller"
-    type: annotation
