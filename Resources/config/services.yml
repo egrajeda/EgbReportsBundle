@@ -1,0 +1,10 @@
+services:
+    egb_reports.report_container:
+        class: Egb\ReportsBundle\Report\ReportContainer
+        calls:
+            - [setDoctrine, [@doctrine]]
+        configurator: [@egb_reports.report_builder_loader, load]
+
+    egb_reports.report_builder_loader:
+        class: Egb\ReportsBundle\Report\ReportBuilderLoader
+        arguments: [@egb_reports.report_container]

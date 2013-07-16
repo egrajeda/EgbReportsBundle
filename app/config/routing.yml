@@ -1,4 +1,0 @@
-egb_reports:
-    resource: "@EgbReportsBundle/Resources/config/routing.yml"
-    prefix:   /
-
