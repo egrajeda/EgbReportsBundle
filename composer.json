@@ -4,6 +4,7 @@
     "description": "Symfony2 bundle for creating and visualizing simple reports",
     "keywords": ["Symfony", "report", "reports", "grid"],
     "homepage": "https://github.com/egrajeda/EgbReportsBundle",
+    "license": "MIT",
     "authors": [
         {
             "name": "Eduardo Grajeda Blandón",
